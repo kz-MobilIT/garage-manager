@@ -66,21 +66,21 @@ python manage.py runserver
 ## 画像イメージ
 
 ### 整備予約・顧客管理アプリ
-![整備予約・顧客管理アプリ](images/customer.png)
+![整備予約・顧客管理アプリ](./images/customer.png)
 
 ### 顧客詳細
-![顧客詳細](images/customer2.png)(images/customer3.png)
+![顧客詳細1](./images/customer2.png)
+![顧客詳細2](./images/customer3.png)
 
 ### 車両一覧
-![車両一覧](images/vehicle3.png)
+![車両一覧](./images/vehicle3.png)
 ### 車両詳細
-![車両詳細](images/vehicle.png)
-          (images/vehicle2.png)
+![車両詳細1](./images/vehicle.png)
+![車両詳細2](./images/vehicle2.png)
 
 ### 予約一覧
-![予約一覧](images/reservation4.png)
+![予約一覧](./images/reservation4.png)
 ### 予約詳細
-![予約詳細](images/reservation.png)
-          (images/reservation2.png)
-          (images/reservation3.png)
+![予約詳細1](./images/reservation.png)                                             ![予約詳細2](./images/reservation2.png)
+![予約詳細3](./images/reservation3.png)
           
