@@ -107,6 +107,7 @@ Django を用いて作成した整備予約・顧客管理アプリです。
 ## 起動方法
 
 ### 1. 仮想環境を有効化
+```md
 ```powershell
 .\venv\Scripts\Activate.ps1
 
