@@ -81,6 +81,7 @@ python manage.py runserver
 ### 予約一覧
 ![予約一覧](./images/reservation4.png)
 ### 予約詳細
-![予約詳細1](./images/reservation.png)                                             ![予約詳細2](./images/reservation2.png)
+![予約詳細1](./images/reservation.png)
+![予約詳細2](./images/reservation2,png)                                   
 ![予約詳細3](./images/reservation3.png)
           
