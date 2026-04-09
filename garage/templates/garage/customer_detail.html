@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}顧客詳細 | 整備予約・顧客管理アプリ{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">顧客詳細</h1>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ customer.name }}</h5>
+        
+        <p><strong>電話番号:</strong> {{ customer.phone }}</p>
+        <p><strong>メールアドレス:</strong> {{ customer.email }}</p>
+        <p><strong>住所:</strong> {{ customer.address }}</p>
+        <p><strong>メモ:</strong> {{ customer.note }}</p>
+    </div>
+</div>
+
+<hr>
+
+<h3>登録車両</h3>
+
+{% if customer.vehicle_set.all %}
+    <ul>
+        {% for vehicle in customer.vehicle_set.all %}
+            <li>
+                {{ vehicle.name }} ({{ vehicle.plate_number }})
+            </li>
+            {% endfor %}
+    </ul>
+{% else %}
+    <p>車両が登録されていません。</p>
+{% endif %}
+
+<h3 class="mb-3">予約履歴</h3>
+
+{% if customer.reservation_set.all %}
+<table class="table table-bordered table-striped mb-4">
+    <thead>
+        <tr>
+            <th>日付</th>
+            <th>時間</th>
+            <th>車両</th>
+            <th>作業内容</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for reservation in customer.reservation_set.all %}
+            <tr>
+                <td>{{ reservation.date }}</td>
+                <td>{{ reservation.time }}</td>
+                <td>{{ reservation.vehicle.name }}</td>
+                <td>{{ reservation.description }}</td>
+                <td>
+                    <a href="{% url 'reservation_update' reservation.pk %}" class="btn btn-sm btn-warning">編集</a>
+                    <a href="{% url 'reservation_delete' reservation.pk %}" class="btn btn-sm btn-danger">削除</a>
+                </td>
+            </tr>
+            {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <p>この顧客にはまだ予約がありません。</p>
+    {% endif %}
+
+<a href="{% url 'customer_update' customer.pk %}" class="btn btn-warning mt-3">編集する</a>
+<a href="{% url 'customer_delete' customer.pk %}" class="btn btn-danger mt-3">削除する</a>
+<a href="{% url 'customer_list' %}" class="btn btn-secondary mt-3">顧客一覧へ戻る</a>
+{% endblock %}
+
+

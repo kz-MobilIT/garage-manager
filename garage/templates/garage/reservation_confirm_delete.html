@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}予約削除{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">予約削除</h1>
+
+    <div class="alert alert-danger">
+        <p>本当にこの予約を削除しますか？</p>
+        <p>
+            <strong>{{ reservation.customer.name }}</strong>
+            - {{ reservation.vehicle.name }}
+            （{{ reservation.date }} {{ reservation.time }}）
+        </p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">削除する</button>
+        <a href="{% url 'reservation_detail' reservation.pk %}" class="btn btn-secondary">キャンセル</a>
+    </form>
+{% endblock %}

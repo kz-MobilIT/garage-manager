@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}車両削除 | 整備予約・顧客管理アプリ{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">車両削除</h1>
+
+    <div class="alert alert-danger">
+        <p>本当にこの車両を削除しますか？</p>
+        <p><strong>{{ vehicle.name }}</strong>（{{ vehicle.plate_number }}）</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">削除する</button>
+        <a href="{% url 'vehicle_detail' vehicle.pk %}" class="btn btn-secondary">キャンセル</a>
+    </form>
+{% endblock %}

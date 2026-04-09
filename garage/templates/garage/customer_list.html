@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}顧客一覧 | 整備予約・顧客管理アプリ{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">顧客一覧</h1>
+    
+    <a href="{% url 'customer_create' %}" class="btn btn-success mb-3">
+        顧客を登録
+    </a>
+
+    {% if customers %}
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>顧客名</th>
+                    <th>電話番号</th>
+                    <th>メールアドレス</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customers %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'customer_detail' customer.pk %}">
+                                {{ customer.name }}
+                            </a>
+                        </td>
+                        <td>{{ customer.phone }}</td>
+                        <td>{{ customer.email }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>顧客がまだ登録されていません。</p>
+    {% endif %}
+{% endblock %}

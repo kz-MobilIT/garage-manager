@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if customer %}
+        顧客編集
+    {% else %}
+        顧客登録
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if customer %}
+        <h1 class="mb-4">顧客編集</h1>
+    {% else %}
+        <h1 class="mb-4">顧客登録</h1>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label class="form-label">顧客名</label>
+            <input type="text" name="name" class="form-control" value="{{ customer.name|default:'' }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">電話番号</label>
+            <input type="text" name="phone" class="form-control" value="{{ customer.phone|default:'' }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">メール</label>
+            <input type="email" name="email" class="form-control" value="{{ customer.email|default:'' }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">住所</label>
+            <input type="text" name="address" class="form-control" value="{{ customer.address|default:'' }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">メモ</label>
+            <textarea name="note" class="form-control">{{ customer.note|default:'' }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            {% if customer %}
+                更新する
+            {% else %}
+                登録する
+            {% endif %}
+        </button>
+
+        <a href="{% url 'customer_list' %}" class="btn btn-secondary">一覧へ戻る</a>
+    </form>
+{% endblock %}

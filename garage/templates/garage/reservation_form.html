@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if reservation %}
+        予約編集
+    {% else %}
+        予約登録
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if reservation %}
+        <h1 class="mb-4">予約編集</h1>
+    {% else %}
+        <h1 class="mb-4">予約登録</h1>
+    {% endif %}
+
+    {% if error_message %}
+        <div class="alert alert-danger">
+            {{ error_message }}
+        </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label class="form-label">顧客</label>
+            <select name="customer" class="form-select">
+                <option value="">---------</option>
+                {% for customer in customers %}
+                    <option value="{{ customer.pk }}"
+                        {% if reservation.customer.pk == customer.pk %}selected{% endif %}>
+                        {{ customer.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">車両</label>
+            <select name="vehicle" class="form-select">
+                <option value="">---------</option>
+                {% for vehicle in vehicles %}
+                    <option value="{{ vehicle.pk }}"
+                        {% if reservation.vehicle.pk == vehicle.pk %}selected{% endif %}>
+                        {{ vehicle.name }}（{{ vehicle.plate_number }}）
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">日付</label>
+            <input type="date" name="date" class="form-control" value="{{ reservation.date|default:'' }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">時間</label>
+            <input type="time" name="time" class="form-control" value="{{ reservation.time|default:'' }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">作業内容</label>
+            <textarea name="description" class="form-control">{{ reservation.description|default:'' }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            {% if reservation %}
+                更新する
+            {% else %}
+                登録する
+            {% endif %}
+        </button>
+
+        <a href="{% url 'reservation_list' %}" class="btn btn-secondary">一覧へ戻る</a>
+    </form>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}ホーム | 整備予約・顧客管理アプリ{% endblock %}
+
+{% block content %}
+    <div class="p-4 mb-4 bg-light rounded-3">
+        <h1 class="mb-3">整備予約・顧客管理アプリ</h1>
+        <p class="lead mb-0">
+            顧客、車両、予約をまとめて管理できるアプリです。
+        </p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3 class="card-title">顧客管理</h3>
+                    <p class="card-text">
+                        顧客一覧の確認や、新しい顧客の登録ができます。
+                    </p>
+                    <a href="{% url 'customer_list' %}" class="btn btn-primary me-2">顧客一覧</a>
+                    <a href="{% url 'customer_create' %}" class="btn btn-outline-primary">顧客登録</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3 class="card-title">車両管理</h3>
+                    <p class="card-text">
+                        登録済みの車両確認や、新しい車両の登録ができます。
+                    </p>
+                    <a href="{% url 'vehicle_list' %}" class="btn btn-success me-2">車両一覧</a>
+                    <a href="{% url 'vehicle_create' %}" class="btn btn-outline-success">車両登録</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3 class="card-title">予約管理</h3>
+                    <p class="card-text">
+                        予約一覧の確認や、新しい予約の登録ができます。
+                    </p>
+                    <a href="{% url 'reservation_list' %}" class="btn btn-warning me-2">予約一覧</a>
+                    <a href="{% url 'reservation_create' %}" class="btn btn-outline-warning">予約登録</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

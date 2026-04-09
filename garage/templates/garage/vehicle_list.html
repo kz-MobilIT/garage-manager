@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}車両一覧{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">車両一覧</h1>
+
+    <a href="{% url 'vehicle_create' %}" class="btn btn-success mb-3">車両を登録</a>
+
+    {% if vehicles %}
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>車名</th>
+                    <th>ナンバー</th>
+                    <th>顧客</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vehicle in vehicles %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'vehicle_detail' vehicle.pk %}">
+                                {{ vehicle.name }}
+                            </a>
+                        </td>
+                        <td>{{ vehicle.plate_number }}</td>
+                        <td>{{ vehicle.customer.name }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>車両が登録されていません。</p>
+    {% endif %}
+{% endblock %}

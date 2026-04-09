@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}車両詳細 | 整備予約・顧客管理アプリ{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">車両詳細</h1>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">{{ vehicle.name }}</h5>
+
+            <p><strong>ナンバー:</strong> {{ vehicle.plate_number }}</p>
+            <p><strong>顧客名:</strong> {{ vehicle.customer.name }}</p>
+        </div>
+    </div>
+
+    <h3 class="mb-3">予約履歴</h3>
+
+    {% if vehicle.reservation_set.all %}
+        <table class="table table-bordered table-striped mb-4">
+            <thead>
+                <tr>
+                    <th>日付</th>
+                    <tr>時間</tr>
+                    <tr>顧客</tr>
+                    <tr>作業内容</tr>
+                </tr>
+            </thead>
+        <tbody>
+            {% for reservation in vehicle.reservation_set.all %}
+                <tr>
+                    <td>{{ reservation.date }}</td>
+                    <td>{{ reservation.time }}</td>
+                    <td>{{ reservation.customer.name }}</td>
+                    <td>{{ reservation.desclription }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>この車両にはまだ予約がありません。</p>
+        {% endif %}
+        
+    <a href="{% url 'vehicle_update' vehicle.pk %}" class="btn btn-warning">編集する</a>
+    <a href="{% url 'vehicle_delete' vehicle.pk %}" class="btn btn-danger">削除する</a>
+    <a href="{% url 'vehicle_list' %}" class="btn btn-secondary">車両一覧へ戻る</a>
+{% endblock %}

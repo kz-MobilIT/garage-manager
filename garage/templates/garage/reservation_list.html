@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}予約一覧{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">予約一覧</h1>
+
+    <a href="{% url 'reservation_create' %}" class="btn btn-success mb-3">予約を登録</a>
+
+    {% if reservations %}
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>顧客</th>
+                    <th>車両</th>
+                    <th>日付</th>
+                    <th>時間</th>
+                    <th>作業内容</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reservation in reservations %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'reservation_detail' reservation.pk %}">
+                            {{ reservation.customer.name }}
+                            </a>
+                        </td>
+                        <td>{{ reservation.vehicle.name }}</td>
+                        <td>{{ reservation.date }}</td>
+                        <td>{{ reservation.time }}</td>
+                        <td>{{ reservation.description }}</td>
+                        <td>
+                            <a href="{% url 'reservation_update' reservation.pk %}" class="btn btn-sm btn-warning">編集</a>
+                            <a href="{% url 'reservation_delete' reservation.pk %}" class="btn btn-sm btn-danger">削除</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>予約が登録されていません。</p>
+    {% endif %}
+{% endblock %}

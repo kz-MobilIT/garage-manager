@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}車両登録 | 整備予約・顧客管理アプリ{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">車両登録</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label class="form-label">顧客</label>
+            <select name="customer" class="form-select">
+                <option value="">---------</option>
+                {% for customer in customers %}
+                    <option value="{{ customer.pk }}"
+                    {% if vehicle.customer.pk == customer.pk %}selected{% endif %}
+                    >
+                        {{ customer.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">車名</label>
+            <input type="text" name="name" class="form-control" value="{{ vehicle.name|default:'' }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">ナンバー</label>
+            <input type="text" name="plate_number" class="form-control" value="{{ vehicle.plate_number|default:'' }}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">登録する</button>
+        <a href="{% url 'vehicle_list' %}" class="btn btn-secondary">一覧へ戻る</a>
+    </form>
+{% endblock %}
