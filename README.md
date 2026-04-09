@@ -110,6 +110,7 @@ Django を用いて作成した整備予約・顧客管理アプリです。
 ```md
 ```powershell
 .\venv\Scripts\Activate.ps1
+---
 
 ## 画像イメージ
 
