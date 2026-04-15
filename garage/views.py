@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Customer, Vehicle, Reservation
+from .forms import ReservationForm
 
 
 def home(request):
@@ -15,6 +16,7 @@ def customer_list(request):
 
 from django.shortcuts import render, redirect
 from .models import Customer
+from datetime import datetime
 
 def customer_create(request):
     if request.method == 'POST':
@@ -158,10 +160,31 @@ def vehicle_delete(request, pk):
     return render(request, 'garage/vehicle_confirm_delete.html', context)
 
 def reservation_list(request):
+    status = request.GET.get('status', '')
+    keyword = request.GET.get('keyword', '')
+    start_date = request.GET.get("start_date", "")
+    end_date = request.GET.get("end_date", "")
+
     reservations = Reservation.objects.all()
+
+    if status:
+        reservations = reservations.filter(status=status)
+
+    if keyword:
+        reservations = reservations.filter(customer__name__icontains=keyword)
+
+    if start_date:
+        reservations = reservations.filter(reserved_at__date__gte=start_date)
+
+    if end_date:
+        reservations = reservations.filter(reserved_at__date__lte=end_date)
 
     context = {
         'reservations': reservations,
+        'selected_status': status,
+        'keyword': keyword,
+        "start_date": start_date,
+        "end_date": end_date,
     }
     return render(request, 'garage/reservation_list.html', context)
 
@@ -175,15 +198,20 @@ def reservation_create(request):
         vehicle_id = request.POST.get('vehicle')
         date = request.POST.get('date')
         time = request.POST.get('time')
-        description = request.POST.get('description')
+        menu = request.POST.get('menu')
+        notes = request.POST.get('notes')
+        status = request.POST.get('status')
 
-        if not customer_id or not vehicle_id or not date or not time:
+
+        if not customer_id or not vehicle_id or not date or not time or not menu:
             context = {
                 'customers': customers,
                 'vehicles': vehicles,
                 'error_message': '顧客・車両・日付・時間は必須です。',
             }
             return render(request, 'garage/reservation_form.html', context)
+        
+        reserved_at = datetime.strptime(f"{date} {time}", "%Y-%m-%d %H:%M")
 
         customer = get_object_or_404(Customer, pk=customer_id)
         vehicle = get_object_or_404(Vehicle, pk=vehicle_id)
@@ -191,9 +219,10 @@ def reservation_create(request):
         Reservation.objects.create(
             customer=customer,
             vehicle=vehicle,
-            date=date,
-            time=time,
-            description=description,
+            reserved_at=reserved_at,
+            menu=menu,
+            notes=notes,
+            status=status,
         )
 
         return redirect('reservation_list')
@@ -222,9 +251,13 @@ def reservation_update(request, pk):
         vehicle_id = request.POST.get('vehicle')
         date = request.POST.get('date')
         time = request.POST.get('time')
-        description = request.POST.get('description')
+        menu = request.POST.get('menu')
+        notes = request.POST.get('notes')
+        status = request.POST.get('status')
 
-        if not customer_id or not vehicle_id or not date or not time:
+        reserved_at = datetime.strptime(f"{date} {time}", "%Y-%m-%d %H:%M")
+
+        if not customer_id or not vehicle_id or not date or not time or not menu:
             context = {
                 'reservation': reservation,
                 'customers': customers,
@@ -238,10 +271,12 @@ def reservation_update(request, pk):
 
         reservation.customer = customer
         reservation.vehicle = vehicle
-        reservation.date = date
-        reservation.time = time
-        reservation.description = description
+        reservation.reserved_at = reserved_at
+        reservation.menu = menu 
+        reservation.notes = notes
+        reservation.status = status
         reservation.save()
+        
 
         return redirect('reservation_detail', pk=reservation.pk)
 

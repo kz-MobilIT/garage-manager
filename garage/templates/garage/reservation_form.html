@@ -61,10 +61,26 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label">作業内容</label>
-            <textarea name="description" class="form-control">{{ reservation.description|default:'' }}</textarea>
-        </div>
+    <label class="form-label">メニュー</label>
+    <input type="text" name="menu" class="form-control"
+           value="{% if reservation %}{{ reservation.menu }}{% endif %}">
+</div>
 
+<div class="mb-3">
+    <label class="form-label">備考</label>
+    <textarea name="notes" class="form-control">{% if reservation %}{{ reservation.notes }}{% endif %}</textarea>
+</div>
+
+<div class="mb-3">
+        <label>状態</label>
+<select name="status" class="form-control">
+    <option value="pending" {% if reservation.status == "pending" %}selected{% endif %}>保留</option>
+    <option value="confirmed" {% if reservation.status == "confirmed" %}selected{% endif %}>予約確定</option>
+    <option value="in_progress" {% if reservation.status == "in_progress" %}selected{% endif %}>作業中</option>
+    <option value="completed" {% if reservation.status == "completed" %}selected{% endif %}>完了</option>
+    <option value="canceled" {% if reservation.status == "canceled" %}selected{% endif %}>キャンセル</option>
+</select>
+</div>
         <button type="submit" class="btn btn-primary">
             {% if reservation %}
                 更新する
@@ -72,6 +88,7 @@
                 登録する
             {% endif %}
         </button>
+
 
         <a href="{% url 'reservation_list' %}" class="btn btn-secondary">一覧へ戻る</a>
     </form>

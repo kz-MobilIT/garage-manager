@@ -23,13 +23,23 @@ class Vehicle(models.Model):
         return f"{self.name} ({self.plate_number}) "
     
 class Reservation(models.Model):
+    class Status(models.TextChoices):
+        PENDING = "pending", "保留"
+        CONFIRMED = "confirmed", "予約確定"
+        IN_PROGRESS = "in_progress", "作業中"
+        COMPLETED = "completed", "完了"
+        CANCELED = "canceled", "キャンセル"
+
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
-
-    date = models.DateField()
-    time = models.TimeField()
-
-    description = models.TextField(blank=True)
+    reserved_at = models.DateTimeField()
+    menu = models.CharField(max_length=200, default="未設定")
+    notes = models.TextField(blank=True)
+    status = models.CharField(
+        max_length=20,
+        choices=Status.choices,
+        default=Status.PENDING,
+    )
 
     def __str__(self):
         return f"{self.customer.name} - {self.vehicle.name} ({self.date} {self.time})"
